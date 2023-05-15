@@ -14,7 +14,7 @@ import { icons, SIZES } from "../../../constants";
 
 const jobTypes = ["Full-Time", "Part-Time", "Contract", "Freelance", "Intership"];
 
-const Welcome = () => {
+const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
   const router = useRouter();
 
   const [activeJobTypes, setActiveJobTypes] = useState("Full-Time");
@@ -28,12 +28,12 @@ const Welcome = () => {
         <View style={styles.searchWrapper}>
           <TextInput
             style={styles.searchInput}
-            value=""
-            onChange={() => {}}
+            value={searchTerm}
+            onChangeText={(text) => setSearchTerm(text)}
             placeholder="What are you looking for?"
           />
         </View>
-        <TouchableOpacity style={styles.searchBtn} onPress={() => {}}>
+        <TouchableOpacity style={styles.searchBtn} disabled={!searchTerm} onPress={handleClick}>
           <Image
             source={icons.search}
             resizeMode="contain"
@@ -49,10 +49,10 @@ const Welcome = () => {
               style={styles.tab(activeJobTypes, item)}
               onPress={() => {
                 setActiveJobTypes(item);
-                router.push(`search/${item}`)
+                router.push(`/search/${item}`)
               }}
             >
-              <Text style={styles.tabText}>{item}</Text>
+              <Text style={styles.tabText(activeJobTypes, item)}>{item}</Text>
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item}
